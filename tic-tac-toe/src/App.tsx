@@ -116,9 +116,9 @@ function PvAi(props: PvAiProps) {
 
 function iterateWithDelay(
   array: any[],
-  effect,
+  effect: (t : any) => any,
   delay: number,
-  end
+  end: () => any
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     let index = 0;
@@ -166,9 +166,9 @@ function AivAi(props: AivAiProps) {
     });
   }, [N]);
 
-  function runGame(gs: GameState): GameState[] {
-    let gameSeq: GameState[] = [];
-    let temp = gs;
+  function runGame(gs: GameState): (GameState | null)[] {
+    let gameSeq: (GameState | null)[] = [];
+    let temp : GameState | null = gs;
     while (temp) {
       temp = updateGameState(temp, strategys[temp.turn](temp));
       gameSeq.push(temp);
@@ -227,6 +227,7 @@ export default function App() {
         if (gs.board[i][j] == -1) return [i, j];
       }
     }
+    return [-1, -1]
   }
   return (
     <div className="app">
