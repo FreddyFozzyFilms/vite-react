@@ -43,9 +43,10 @@ function PvP(props: PvPProps) {
           isWin(gameState)
             ? (r, e) => {}
             : (r, e) => {
-                setGameState((gs) =>
-                  updateGameState(gs, [r, e]) ? updateGameState(gs, [r, e]) : gs
-                );
+                setGameState((gs) => {
+                  const updatedState = updateGameState(gs, [r, e]);
+                  return updatedState !== null ? updatedState : gs;
+                });
               }
         }
       />

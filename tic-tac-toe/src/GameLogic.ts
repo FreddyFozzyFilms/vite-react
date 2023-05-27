@@ -15,13 +15,13 @@ export interface GameState {
     turn = (turn + 1) % 2;
   
     let N = board.length;
-    let checkRow = (i) => {
+    let checkRow = (i : number) => {
       for (let j = 0; j < N; j++) {
         if (board[i][j] != turn) return false;
       }
       return true;
     };
-    let checkColumn = (j) => {
+    let checkColumn = (j : number) => {
       for (let i = 0; i < N; i++) {
         if (board[i][j] != turn) return false;
       }
