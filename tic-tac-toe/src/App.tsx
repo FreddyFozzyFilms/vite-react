@@ -41,7 +41,7 @@ function PvP(props: PvPProps) {
         mat={gameState.board}
         onChange={
           isWin(gameState)
-            ? (r, e) => {}
+            ? () => {}
             : (r, e) => {
                 setGameState((gs) => {
                   const updatedState = updateGameState(gs, [r, e]);
@@ -91,7 +91,7 @@ function PvAi(props: PvAiProps) {
         mat={gameState.board}
         onChange={
           isWin(gameState)
-            ? (r, e) => {}
+            ? () => {}
             : (r, e) => {
                 setGameState((gs) => {
                   let gs1 = updateGameState(gs, [r, e]);
@@ -120,7 +120,7 @@ function iterateWithDelay(
   delay: number,
   end: () => any
 ): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
+  return new Promise<void>(() => {
     let index = 0;
 
     function next() {

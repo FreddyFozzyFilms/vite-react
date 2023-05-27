@@ -1,4 +1,4 @@
-import * as React from 'react';
+import 'react';
 
 interface BoardProps {
   mat: number[][];
@@ -7,7 +7,7 @@ interface BoardProps {
 export default function Board(props: BoardProps) {
   const { mat, onChange } = props;
 
-  const repr = (elem) => {
+  const repr = (elem : number) => {
     if (elem == -1) return '';
     return elem == 1 ? 'x' : 'o';
   };
