@@ -3,12 +3,12 @@ import * as React from 'react';
 import Board from './components/Board';
 import { GameState, isWin, isFull, updateGameState } from './GameLogic';
 
-import { workerInstance, blockingFunc, randomIntFromInterval } from "./utils";
+import { workerInstance } from "./utils";
 
 
 import CodeMirror from "@uiw/react-codemirror";
-import { EditorState, EditorStateConfig, Extension } from '@codemirror/state';
-import { EditorView, ViewUpdate } from '@codemirror/view'
+// import { EditorState, EditorStateConfig, Extension } from '@codemirror/state';
+import { /**EditorView,**/ ViewUpdate } from '@codemirror/view'
 import { javascript } from "@codemirror/lang-javascript";
 
 interface PvAiProps {
@@ -24,11 +24,7 @@ export default function PvAi(props: PvAiProps) {
     turn: 0,
   });
 
-  const [random, setRandom] = React.useState<number>(0);
-  const [output, setOutput] = React.useState([0,0])
-  const [code, setCode] = React.useState<string>(
-    "function strat(gs) { \n let N = gs.board.length; \n for (let i = 0; i < N; i++) {\n for (let j = 0; j < N; j++) {\n if (gs.board[i][j] == -1) return [i, j];\n }\n }\nreturn [-1, -1]\n}"
-  );
+  const [code, setCode] = React.useState<string>(strategy.toString());
 
   const workerCall = React.useCallback(async () => {
     const move = await workerInstance.someRPCFunc(code, gameState);
@@ -54,15 +50,7 @@ export default function PvAi(props: PvAiProps) {
     workerCall();
   }, [workerCall]);
 
-  const normalFuncCall = React.useCallback(() => {
-    blockingFunc();
-  }, []);
-
-  const randomIntHandler = React.useCallback(() => {
-    setRandom(randomIntFromInterval(1, 100));
-  }, []);
-
-  const onChange = React.useCallback((value : string, viewUpdate:ViewUpdate) => {
+  const onChange = React.useCallback((value : string, _viewUpdate:ViewUpdate) => {
     console.log("value:", value);
     setCode(value);
   }, []);

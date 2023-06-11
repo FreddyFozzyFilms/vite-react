@@ -2,9 +2,8 @@
 declare const self: DedicatedWorkerGlobalScope;
 
 import { GameState } from "../GameLogic";
-import { blockingFunc } from "../utils";
 
-export const someRPCFunc = (code : string, gs) => {
+export const someRPCFunc = (code : string, gs : GameState) => {
   //blockingFunc();
   let bruh = eval(`${code}; strat(${JSON.stringify(gs)})`)
   return bruh;
