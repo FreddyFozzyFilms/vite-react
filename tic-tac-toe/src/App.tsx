@@ -3,6 +3,8 @@ import './style.css';
 
 import Board from './components/Board';
 
+import PvAi from './PvAi'
+
 import { GameState, isWin, isFull, updateGameState } from './GameLogic';
 
 interface PvPProps {
@@ -47,66 +49,6 @@ function PvP(props: PvPProps) {
                   const updatedState = updateGameState(gs, [r, e]);
                   return updatedState !== null ? updatedState : gs;
                 });
-              }
-        }
-      />
-    </div>
-  );
-}
-
-interface PvAiProps {
-  N: number;
-  strategy: (gs: GameState) => [number, number];
-}
-function PvAi(props: PvAiProps) {
-  const { N, strategy } = props;
-
-  const [gameState, setGameState] = React.useState<GameState>({
-    board: Array(N).fill(Array(N).fill(-1)),
-    lastMove: [-1, -1],
-    turn: 0,
-  });
-
-  // so entire game state resets everytime component remounts
-  React.useEffect(() => {
-    setGameState({
-      board: Array(N).fill(Array(N).fill(-1)),
-      lastMove: [-1, -1],
-      turn: 0,
-    });
-  }, [N]);
-
-  return (
-    <div className="game-holder">
-      {isFull(gameState.board) && !isWin(gameState) ? (
-        <h1>Tie</h1>
-      ) : (
-        <h1>
-          {isWin(gameState)
-            ? `Player ${(gameState.turn + 1) % 2} YOU WIN!`
-            : `Player ${gameState.turn}'s turn`}
-        </h1>
-      )}
-      <Board
-        mat={gameState.board}
-        onChange={
-          isWin(gameState)
-            ? () => {}
-            : (r, e) => {
-                setGameState((gs) => {
-                  let gs1 = updateGameState(gs, [r, e]);
-                  if (!gs1) return gs; // no more changes if player move is invalid
-                  return gs1;
-                });
-                setTimeout(
-                  () =>
-                    setGameState((gs1) => {
-                      let gs2 = updateGameState(gs1, strategy(gs1));
-                      if (!gs2) return gs1; // no more changes if ai move is invalid
-                      return gs2;
-                    }),
-                  500
-                );
               }
         }
       />
